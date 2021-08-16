@@ -15,11 +15,12 @@
  */
 package org.springframework.samples.petclinic.visit;
 
-import java.util.List;
+import com.yugabyte.data.jdbc.repository.YsqlRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * Repository class for <code>Visit</code> domain objects All method names are compliant with Spring Data naming
@@ -31,15 +32,15 @@ import org.springframework.data.repository.query.Param;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface VisitRepository extends Repository<Visit, Integer> {
+public interface VisitRepository extends YsqlRepository<Visit, Integer> {
 
-	/**
-	 * Save a <code>Visit</code> to the data store, either inserting or updating it.
-	 *
-	 * @param visit the <code>Visit</code> to save
-	 */
-	void save(Visit visit) throws DataAccessException;
+    /**
+     * Save a <code>Visit</code> to the data store, either inserting or updating it.
+     *
+     * @param visit the <code>Visit</code> to save
+     */
+    Visit save(Visit visit) throws DataAccessException;
 
-	@Query("select * from visit where pet_id = :petId")
-	List<Visit> findByPetId(@Param("petId") Integer petId);
+    @Query("select * from visit where pet_id = :petId")
+    List<Visit> findByPetId(@Param("petId") Integer petId);
 }

@@ -15,9 +15,11 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -28,6 +30,7 @@ import org.springframework.data.annotation.Id;
  * @author Michael Isvy
  * @author Maciej Walkowiak
  */
+@Table
 public class Owner {
 
 	@Id

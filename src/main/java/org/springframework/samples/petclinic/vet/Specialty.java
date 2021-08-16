@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.vet;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).
@@ -23,5 +24,6 @@ import org.springframework.data.annotation.Id;
  * @author Juergen Hoeller
  * @author Maciej Walkowiak
  */
+@Table
 public record Specialty(@Id Long id, String name) {
 }

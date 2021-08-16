@@ -30,6 +30,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 /**
  * Test class for the {@link PetController}
  *
@@ -54,8 +56,8 @@ public class PetControllerTests {
 	public void setup() {
 		var cat = new PetType(3L, "hamster");
 		given(this.pets.findPetTypes()).willReturn(Lists.newArrayList(cat));
-		given(this.owners.findById(TEST_OWNER_ID)).willReturn(new Owner());
-		given(this.pets.findById(TEST_PET_ID)).willReturn(new Pet());
+		given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(new Owner()));
+		given(this.pets.findById(TEST_PET_ID)).willReturn(Optional.of(new Pet()));
 
 	}
 

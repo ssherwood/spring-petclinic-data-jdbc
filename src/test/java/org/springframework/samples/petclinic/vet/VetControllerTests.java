@@ -33,6 +33,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Optional;
+
 /**
  * Test class for the {@link VetController}
  */
@@ -61,7 +63,7 @@ public class VetControllerTests {
 		var radiology = new Specialty(1L, "radiology");
 		helen.addSpecialty(radiology);
 		given(this.vets.findAll()).willReturn(Lists.newArrayList(james, helen));
-		given(this.specialties.findById(1L)).willReturn(radiology);
+		given(this.specialties.findById(1L)).willReturn(Optional.of(radiology));
 	}
 
 	@Test

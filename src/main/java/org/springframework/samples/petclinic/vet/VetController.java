@@ -15,13 +15,15 @@
  */
 package org.springframework.samples.petclinic.vet;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Juergen Hoeller
@@ -33,37 +35,55 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 class VetController {
 
-	private final VetRepository vets;
-	private final SpecialtyRepository specialties;
+    private final VetRepository vets;
+    private final SpecialtyRepository specialties;
 
-	public VetController(VetRepository clinicService, SpecialtyRepository specialties) {
-		this.vets = clinicService;
-		this.specialties = specialties;
-	}
+    public VetController(VetRepository clinicService, SpecialtyRepository specialties) {
+        this.vets = clinicService;
+        this.specialties = specialties;
+    }
 
-	@GetMapping("/vets.html")
-	public String showVetList(Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects so it is simpler for Object-Xml mapping
-		model.put("vets", new Vets(vetToVetDto(this.vets.findAll())));
-		return "vets/vetList";
-	}
+    @GetMapping("/vets.html")
+    public String showVetList(Map<String, Object> model) {
+        // Here we are returning an object of type 'Vets' rather than a collection of Vet
+        // objects so it is simpler for Object-Xml mapping
+        model.put("vets", new Vets(vetToVetDto(this.vets.findAll())));
+        return "vets/vetList";
+    }
 
-	@GetMapping({ "/vets" })
-	public @ResponseBody Vets showResourcesVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects so it is simpler for JSon/Object mapping
-		return new Vets(vetToVetDto(this.vets.findAll()));
-	}
+    @GetMapping({"/vets"})
+    public @ResponseBody
+    Vets showResourcesVetList() {
+        // Here we are returning an object of type 'Vets' rather than a collection of Vet
+        // objects so it is simpler for JSon/Object mapping
+        return new Vets(vetToVetDto(this.vets.findAll()));
+    }
 
-	private List<VetDto> vetToVetDto(Collection<Vet> vets) {
-		return vets.stream().map(this::vetToVetDto).collect(Collectors.toList());
-	}
+    private List<VetDto> vetToVetDto(Collection<Vet> vets) {
+        return vets.stream().map(this::vetToVetDto).collect(Collectors.toList());
+    }
 
-	private VetDto vetToVetDto(Vet v) {
-		var specialtyList = v.getSpecialties().stream().map(s -> specialties.findById(s.specialty()))
-				.collect(Collectors.toList());
-		return new VetDto(v.getId(), v.getFirstName(), v.getLastName(), specialtyList);
-	}
+    private VetDto vetToVetDto(Vet v) {
+        var specialtyList = v.getSpecialties().stream()
+            .map(s -> specialties.findById(s.specialty()))
+            .flatMap(Optional::stream)
+            .collect(Collectors.toList());
 
+        return new VetDto(v.getId(), v.getFirstName(), v.getLastName(), specialtyList);
+    }
+
+    /**
+     *
+     */
+    static record Vets(List<VetDto> vets) {
+    }
+
+    /**
+     *
+     */
+    static record VetDto(Long id, String firstName, String lastName, List<Specialty> specialties) {
+        public int getNrOfSpecialties() {
+            return specialties.size();
+        }
+    }
 }

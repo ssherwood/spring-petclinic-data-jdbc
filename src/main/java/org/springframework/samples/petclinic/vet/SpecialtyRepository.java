@@ -15,16 +15,22 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import com.yugabyte.data.jdbc.repository.YsqlRepository;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.repository.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * @author Maciej Walkowiak
  */
-public interface SpecialtyRepository extends Repository<Specialty, Long> {
+public interface SpecialtyRepository extends YsqlRepository<Specialty, Long> {
 
-	@Transactional(readOnly = true)
-	@Cacheable("specialty")
-	Specialty findById(Long id);
+    /**
+     * @param id
+     * @return
+     */
+    @Cacheable("specialty")
+    @Transactional(readOnly = true)
+    Optional<Specialty> findById(Long id);
 }

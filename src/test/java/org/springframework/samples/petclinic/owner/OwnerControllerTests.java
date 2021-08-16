@@ -37,6 +37,8 @@ import org.springframework.samples.petclinic.owner.OwnerRepository;
 import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 /**
  * Test class for {@link OwnerController}
  *
@@ -70,7 +72,7 @@ public class OwnerControllerTests {
 		george.setAddress("110 W. Liberty St.");
 		george.setCity("Madison");
 		george.setTelephone("6085551023");
-		given(this.owners.findById(TEST_OWNER_ID)).willReturn(george);
+		given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(george));
 	}
 
 	@Test

@@ -84,8 +84,8 @@ public class ClinicServiceTests {
 
 	@Test
 	public void shouldFindSingleOwner() {
-		Owner owner = this.owners.findById(1);
-		assertThat(owner.getLastName()).startsWith("Franklin");
+		var owner = this.owners.findById(1);
+		assertThat(owner.get().getLastName()).startsWith("Franklin");
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class ClinicServiceTests {
 	@Test
 	@Transactional
 	public void shouldUpdateOwner() {
-		Owner owner = this.owners.findById(1);
+		var owner = this.owners.findById(1).get();
 		String oldLastName = owner.getLastName();
 		String newLastName = oldLastName + "X";
 
@@ -118,13 +118,13 @@ public class ClinicServiceTests {
 		this.owners.save(owner);
 
 		// retrieving new name from database
-		owner = this.owners.findById(1);
+		owner = this.owners.findById(1).get();
 		assertThat(owner.getLastName()).isEqualTo(newLastName);
 	}
 
 	@Test
 	public void shouldFindPetWithCorrectId() {
-		Pet pet7 = this.pets.findById(7);
+		Pet pet7 = this.pets.findById(7).get();
 		assertThat(pet7.getName()).startsWith("Samantha");
 	}
 
@@ -138,7 +138,7 @@ public class ClinicServiceTests {
 	@Test
 	@Transactional
 	public void shouldInsertPetIntoDatabaseAndGenerateId() {
-		Owner owner6 = this.owners.findById(6);
+		Owner owner6 = this.owners.findById(6).get();
 		int found = this.pets.findByOwnerId(6).size();
 
 		Pet pet = new Pet();
@@ -155,14 +155,14 @@ public class ClinicServiceTests {
 	@Test
 	@Transactional
 	public void shouldUpdatePetName() {
-		Pet pet7 = this.pets.findById(7);
+		Pet pet7 = this.pets.findById(7).get();
 		String oldName = pet7.getName();
 
 		String newName = oldName + "X";
 		pet7.setName(newName);
 		this.pets.save(pet7);
 
-		pet7 = this.pets.findById(7);
+		pet7 = this.pets.findById(7).get();
 		assertThat(pet7.getName()).isEqualTo(newName);
 	}
 
@@ -178,7 +178,7 @@ public class ClinicServiceTests {
 	@Test
 	@Transactional
 	public void shouldAddNewVisitForPet() {
-		Pet pet7 = this.pets.findById(7);
+		Pet pet7 = this.pets.findById(7).get();
 		int found = this.visits.findByPetId(pet7.getId()).size();
 
 		Visit visit = new Visit();

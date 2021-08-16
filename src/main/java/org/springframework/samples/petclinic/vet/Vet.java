@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -33,6 +34,7 @@ import org.springframework.data.annotation.Id;
  * @author Arjen Poutsma
  * @author Maciej Walkowiak
  */
+@Table
 public class Vet implements Serializable {
 
 	@Id

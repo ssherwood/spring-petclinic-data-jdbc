@@ -1,9 +1,9 @@
 spring:
-  datasource: # database init
-    #url: jdbc:postgresql://127.0.0.1:5433/petclinic?load-balance=true
-    url: jdbc:postgresql://127.0.0.1:5433/petclinic
-    username: petclinic
-    password: petclinic
+#  datasource: # database init
+#    #url: jdbc:postgresql://127.0.0.1:5433/petclinic?load-balance=true
+#    url: jdbc:postgresql://127.0.0.1:5433/petclinic
+#    username: petclinic
+#    password: petclinic
   test:
     database.replace: none   # do not attempt to replace database with in-memory database
   thymeleaf:
@@ -28,11 +28,6 @@ logging.level:
   sql: DEBUG
   com.zaxxer.hikari: TRACE
   com.zaxxer.hikari.HikariConfig: DEBUG
+  com.yugabyte.data.jdbc: DEBUG
   #org.springframework.web: DEBUG
   #org.springframework.context.annotation: TRACE
-
-# Wavefront observability platform configuration
-wavefront:
-  application:
-    name: spring-petclinic-jdbc
-    service: app
