@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.visit;
 
-import org.springframework.samples.petclinic.visit.Visit;
-import org.springframework.samples.petclinic.visit.VisitRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import org.springframework.samples.petclinic.owner.OwnerRepository;
+import org.springframework.samples.petclinic.pet.PetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -81,6 +83,10 @@ class VisitController {
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "ownerId", value = "ownerId", required = true, dataTypeClass = Integer.class, paramType = "path"),
+        @ApiImplicitParam(name = "petId", value = "petId", required = true, dataTypeClass = Integer.class, paramType = "path")
+    })
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
         if (result.hasErrors()) {

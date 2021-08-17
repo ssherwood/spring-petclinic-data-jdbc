@@ -18,25 +18,32 @@ package org.springframework.samples.petclinic;
 import com.yugabyte.data.jdbc.datasource.YugabyteTransactionManager;
 import com.yugabyte.data.jdbc.repository.config.AbstractYugabyteJdbcConfiguration;
 import com.yugabyte.data.jdbc.repository.config.EnableYsqlRepositories;
-import com.yugabyte.data.jdbc.repository.config.YugabyteDialectResolver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.postgresql.PGProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.repository.config.DialectResolver;
-import org.springframework.data.relational.core.dialect.Dialect;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
-import java.util.Properties;
+import java.util.Collections;
 
 /**
  * PetClinic Spring Boot Application.
@@ -50,7 +57,9 @@ public class PetClinicApplication {
         SpringApplication.run(PetClinicApplication.class, args);
     }
 
-    // TODO use this config until the Yugabyte "starter" is available
+    /**
+     *  TODO: Use this config until the Yugabyte "starter" is available
+     */
     @Configuration
     @EnableYsqlRepositories
     static class YsqlConfig extends AbstractYugabyteJdbcConfiguration {
