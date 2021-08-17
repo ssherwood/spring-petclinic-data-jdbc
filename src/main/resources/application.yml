@@ -1,33 +1,27 @@
 spring:
-#  datasource: # database init
-#    #url: jdbc:postgresql://127.0.0.1:5433/petclinic?load-balance=true
-#    url: jdbc:postgresql://127.0.0.1:5433/petclinic
-#    username: petclinic
-#    password: petclinic
+  messages:
+    basename: messages/messages   # internationalization
   test:
-    database.replace: none   # do not attempt to replace database with in-memory database
+    database.replace: none
   thymeleaf:
     mode: HTML
   web:
-    resources:
-      cache:
-        cachecontrol:
-          max-age: 12h    # maximum time static resources should be cached
-  messages:
-    basename: messages/messages # Internationalization
+    resources.cache:
+      cachecontrol:
+        max-age: 12h            # maximum time static resources should be cached
 
 management:
   endpoints:
     web:
       base-path: /manage
-      exposure:
-        include: "*"
+      exposure.include: "*"
 
 # Logging
 logging.level:
-  sql: DEBUG
   com.zaxxer.hikari: TRACE
   com.zaxxer.hikari.HikariConfig: DEBUG
   com.yugabyte.data.jdbc: DEBUG
+  org.springframework.jdbc.core.JdbcTemplate: DEBUG
+  org.springframework.jdbc.core.StatementCreatorUtils: TRACE
   #org.springframework.web: DEBUG
   #org.springframework.context.annotation: TRACE

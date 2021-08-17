@@ -21,6 +21,7 @@ import com.yugabyte.data.jdbc.repository.config.EnableYsqlRepositories;
 import com.yugabyte.data.jdbc.repository.config.YugabyteDialectResolver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.postgresql.PGProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -53,26 +54,36 @@ public class PetClinicApplication {
     @EnableYsqlRepositories
     static class YsqlConfig extends AbstractYugabyteJdbcConfiguration {
 
+        //https://github.com/brettwooldridge/HikariCP
+
         @Bean
         DataSource dataSource() {
-            Properties poolProperties = new Properties();
-            poolProperties.setProperty("dataSourceClassName", "com.yugabyte.ysql.YBClusterAwareDataSource");
-            poolProperties.setProperty("dataSource.serverName", "127.0.0.1");
-            poolProperties.setProperty("dataSource.portNumber", "5433");
-            poolProperties.setProperty("dataSource.user", "yugabyte");
-            poolProperties.setProperty("dataSource.password", "yugabyte");
-            poolProperties.setProperty("dataSource.loadBalance", "true");
-            poolProperties.setProperty("dataSource.additionalEndpoints", "127.0.0.2:5433,127.0.0.3:5433");
-
-            HikariConfig hikariConfig = new HikariConfig(poolProperties);
-            DataSource ybClusterAwareDataSource = new HikariDataSource(hikariConfig);
-            return ybClusterAwareDataSource;
+            HikariConfig hikariConfig = new HikariConfig();
+            hikariConfig.setJdbcUrl("jdbc:postgresql://127.0.0.1:5433,127.0.0.2:5433,127.0.0.3:5433/yugabyte");
+            hikariConfig.setUsername("yugabyte");
+            hikariConfig.addDataSourceProperty("load-balance", "true");  // Load Balance connections across multiple tservers
+            return new HikariDataSource(hikariConfig);
         }
 
+//        @Bean
+//        DataSource dataSourceConfig2() {
+//            Properties poolProperties = new Properties();
+//            poolProperties.setProperty("dataSourceClassName", "com.yugabyte.ysql.YBClusterAwareDataSource");
+//            poolProperties.setProperty("dataSource.serverName", "127.0.0.1");
+//            poolProperties.setProperty("dataSource.portNumber", "5433");
+//            poolProperties.setProperty("dataSource.user", "yugabyte");
+//            poolProperties.setProperty("dataSource.password", "yugabyte");
+//            poolProperties.setProperty("dataSource.loadBalance", "true");
+//            poolProperties.setProperty("dataSource.additionalEndpoints", "127.0.0.2:5433,127.0.0.3:5433");
+//
+//            HikariConfig hikariConfig = new HikariConfig(poolProperties);
+//            DataSource ybClusterAwareDataSource = new HikariDataSource(hikariConfig);
+//            return ybClusterAwareDataSource;
+//        }
+
         @Bean
-        JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource) {
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-            return jdbcTemplate;
+        JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
         }
 
         @Bean

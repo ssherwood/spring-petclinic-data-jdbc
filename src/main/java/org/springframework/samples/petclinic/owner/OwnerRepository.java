@@ -44,8 +44,8 @@ public interface OwnerRepository extends YsqlRepository<Owner, Integer> {
 	 * @param lastName Value to search for
 	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none found)
 	 */
+    @Transactional(readOnly = true)
 	@Query("SELECT * FROM owner WHERE last_name LIKE concat(:lastName,'%')")
-	@Transactional(readOnly = true)
 	Collection<Owner> findByLastName(@Param("lastName") String lastName);
 
 	/**
