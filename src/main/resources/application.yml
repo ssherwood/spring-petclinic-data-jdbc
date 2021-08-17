@@ -10,6 +10,13 @@ spring:
       cachecontrol:
         max-age: 12h            # maximum time static resources should be cached
 
+yugabyte:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433,127.0.0.2:5433,127.0.0.3:5433/yugabyte
+    load-balance: true
+    username: yugabyte
+    password: yugabyte
+
 management:
   endpoints:
     web:
