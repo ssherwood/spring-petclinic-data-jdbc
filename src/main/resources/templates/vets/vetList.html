@@ -23,5 +23,23 @@
       </tr>
     </tbody>
   </table>
+	<table>
+		<tr>
+			<th>API</th>
+			<th>Functionality</th>
+			<th>Tables</th>
+			<th>Ysql Repository Method</th>
+			<th>Ysql Repository Generated Query</th>
+		</tr>
+		<tr>
+			<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/web/VetController.java#L50" target="_blank"
+					rel="noopener noreferrer">/vets</a></td>
+			<td>Vet Specialty</td>
+			<td>vet</td>
+			<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/vet/SpecialtyRepository.java#L35" target="_blank"
+					rel="noopener noreferrer">SpecialtyRepository.findById()</a></td>
+			<td>SELECT "specialty"."id" AS "id", "specialty"."name" AS "name" FROM "specialty" WHERE "specialty"."id" = ?</td>
+		</tr>
+	</table>
 </body>
 </html>

@@ -24,12 +24,65 @@
         <button type="submit" class="btn btn-default">Find
           Owner</button>
       </div>
+      <br />
+  	  <br />
+      <br />
+      <div class="col-sm-offset-2 col-sm-10" >
+	      <table>
+					<tr>
+						<th>API</th>
+						<th>Functionality</th>
+						<th>Tables</th>
+						<th>Ysql Repository Method</th>
+						<th>Ysql Repository Generated Query</th>
+					</tr>
+					<tr>
+						<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/web/OwnerController.java#L88" target="_blank"
+								rel="noopener noreferrer">/Owners/find</a></td>
+						<td>Find Owner by Last Name</td>
+						<td>owner</td>
+						<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java" target="_blank"
+								rel="noopener noreferrer">OwnerRepository.findByLastName()</a></td>
+						<td><p>SELECT * FROM owner WHERE last_name LIKE concat(:lastName,'%')</p></td>
+					</tr>
+			</table>
+		</div>
     </div>
 
   </form>
 
   <br />
-  <a class="btn btn-default" th:href="@{/owners/new}">Add Owner</a>
+  <br />
+  <br />
+  <div style="overflow: hidden;">
+  	<div style="width: 300px;float:left;">
+  		<h2>Add an Owner</h2>
+  		<label class="col-sm-2 control-label"></label>
+  	</div>
+  	<div class="form-group col-sm-offset-2 col-sm-10">
+  		<a class="btn btn-default" th:href="@{/owners/new}">Add Owner</a>
+  	</div>
+  	<div>
+	      <table>
+					<tr>
+						<th>API</th>
+						<th>Functionality</th>
+						<th>Tables</th>
+						<th>Ysql Repository Method</th>
+						<th>Ysql Repository Generated Query</th>
+					</tr>
+					<tr>
+						<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/web/OwnerController.java#L72" target="_blank"
+								rel="noopener noreferrer">/owners/new</a></td>
+						<td>Add an Owner</td>
+						<td>owner</td>
+						<td><a href="https://github.com/ssherwood/spring-petclinic-data-jdbc/blob/s1p2021/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java" target="_blank"
+								rel="noopener noreferrer">OwnerRepository.save()</a></td>
+						<td>INSERT INTO owner</td>
+					</tr>
+			</table>
+		</div>
+  </div>
 
 </body>
 </html>
