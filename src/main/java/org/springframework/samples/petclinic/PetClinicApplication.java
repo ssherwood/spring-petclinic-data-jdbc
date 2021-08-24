@@ -65,10 +65,14 @@ public class PetClinicApplication {
     static class YsqlConfig extends AbstractYugabyteJdbcConfiguration {
         @Bean
         DataSource dataSource(@Value("${yugabyte.datasource.url}") String jdbcUrl,
+                              @Value("${yugabyte.datasource.driver-class-name}") String driverClassName,
                               @Value("${yugabyte.datasource.load-balance:false}") String loadBalance,
                               @Value("${yugabyte.datasource.username}") String username,
                               @Value("${yugabyte.datasource.password}") String password) {
             HikariConfig hikariConfig = new HikariConfig();
+            if (driverClassName != null) {
+                hikariConfig.setDriverClassName(driverClassName);
+            }
             hikariConfig.setJdbcUrl(jdbcUrl);
             hikariConfig.setUsername(username);
             hikariConfig.setPassword(password);

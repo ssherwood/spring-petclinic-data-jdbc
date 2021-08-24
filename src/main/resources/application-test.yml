@@ -1,4 +1,7 @@
 # use test containers to spin up mysql
-#spring.datasource.url=jdbc:tc:yugabytedb:2.7.0.0-b17://hostname/databasename
-# ^ TODO
-
+yugabyte:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:yugabytedb:2.7.0.0-b17://localhost/yugabyte
+    username: yugabyte
+    password: yugabyte
