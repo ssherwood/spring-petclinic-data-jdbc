@@ -65,7 +65,7 @@ public class PetClinicApplication {
     static class YsqlConfig extends AbstractYugabyteJdbcConfiguration {
         @Bean
         DataSource dataSource(@Value("${yugabyte.datasource.url}") String jdbcUrl,
-                              @Value("${yugabyte.datasource.driver-class-name}") String driverClassName,
+                              @Value("${yugabyte.datasource.driver-class-name:org.postgresql.Driver}") String driverClassName,
                               @Value("${yugabyte.datasource.load-balance:false}") String loadBalance,
                               @Value("${yugabyte.datasource.username}") String username,
                               @Value("${yugabyte.datasource.password}") String password) {
